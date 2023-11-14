@@ -6,7 +6,7 @@ passport.use(
     {
       clientID: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-      callbackURL: "/auth/google/redirect",
+      callbackURL: "https://google-oauth-testing.onrender.com/auth/google/redirect",
     },
     (accessToken, refreshToken, profile, done) => {
       // Here, you would typically find or create a user in your database
