@@ -12,6 +12,6 @@ router.get('/google/redirect', passport.authenticate('google'), (req, res) => {
     console.log("-----user-----")
     console.log(req.user);
     const user = encodeURIComponent(JSON.stringify(req.user));
-    res.redirect(`myapp://profile?user=${user}`);});
+    res.redirect(`google-oauth-testing://profile?user=${user}`);});
 
 module.exports = router;
