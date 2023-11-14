@@ -15,7 +15,7 @@ router.get("/google/redirect", passport.authenticate("google"), (req, res) => {
   console.log("-----user-----");
   console.log(req.user)
   const userData = JSON.stringify(req.user);
-  const deepLinkUrl = `google-oauth-testing://profile?user=${encodeURIComponent(userData)}`;
+  const deepLinkUrl = `com.google-oauth-testing://profile?user=${encodeURIComponent(userData)}`;
   res.redirect(deepLinkUrl);
 });
 
