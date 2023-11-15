@@ -2,29 +2,31 @@ const router = require("express").Router();
 const passport = require("passport");
 
 // Route to start OAuth flow
-router.get(
-  "/google",
-  (req, res, next) => {
-    const {linkingUri} = req.query;
-    req.linkingUri = linkingUri;
-    console.log(`Middleware, req.linkingUri: ${req.linkingUri}`)
-    next();
-  },
+// router.get(
+//   "/google",
+//   (req, res, next) => {
+//     const {linkingUri} = req.query;
+//     req.linkingUri = linkingUri;
+//     console.log(`Middleware, req.linkingUri: ${req.linkingUri}`)
+//     next();
+//   },
+//   passport.authenticate("google", {
+//     scope: ["profile", "email"],
+//   })
+// );
+router.get("/google", (req, res, next) => {
+  const { linkingUri } = req.query;
   passport.authenticate("google", {
     scope: ["profile", "email"],
-  })
-);
+    state: linkingUri, // Pass linkingUri in the state parameter
+  })(req, res, next);
+});
 
 // Callback route for Google to redirect to
 router.get("/google/redirect", passport.authenticate("google"), (req, res) => {
-  // Authentication successful, redirect or send user info
-  console.log("-----user-----");
-  console.log("-----req-----");
-  console.log(req);
   const userData = JSON.stringify(req.user);
-  // const deepLinkUrl = `com.google-oauth-testing://profile?user=${encodeURIComponent(userData)}`;
-  const deepLinkUrl = `${req.linkingUri}user=${userData}`;
-
+  const linkingUri = req.query.state; // Retrieve linkingUri from the state query param
+  const deepLinkUrl = `${linkingUri}user=${encodeURIComponent(userData)}`;
   res.redirect(deepLinkUrl);
 });
 
