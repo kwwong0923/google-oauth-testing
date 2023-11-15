@@ -2,6 +2,7 @@ require("dotenv").config();
 const express = require("express");
 const passport = require("passport");
 const authRoutes = require("./routes/auth-route");
+const testRoutes = require("./routes/test-route");
 require("./config/passport"); // Ensure Passport is configured
 const session = require("express-session");
 
@@ -22,8 +23,6 @@ app.use(passport.session());
 
 // Set up routes
 app.use("/auth", authRoutes);
-app.use("/test", (req, res) => {
-  res.status(200).json({ message: "This is online" });
-});
+app.use("/test", testRoutes);
 
 module.exports = app;
