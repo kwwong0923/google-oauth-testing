@@ -6,9 +6,9 @@ router.get("/message", (req, res) => {
 
 router.get("/", (req, res) => {
   console.log("TEST!!!!!")
-  const { linkingUri } = req.params;
+  const { linkingUri } = req.query;
   console.log(linkingUri);
-  res.redirect(`expo.examples.with-webbrowser-redirect//?message:${linkingUri}`);
+  res.redirect(`${linkingUri}message=hello`);
 });
 
 module.exports = router;
