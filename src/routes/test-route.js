@@ -5,9 +5,9 @@ router.get("/message", (req, res) => {
 });
 
 router.get("/", (req, res) => {
+  console.log("TEST!!!!!")
   const { linkingUri } = req.params;
   console.log(linkingUri);
-  res.status(200).json({ message: "This is online" });
   res.redirect(`${linkingUri}message=hello`);
 });
 
