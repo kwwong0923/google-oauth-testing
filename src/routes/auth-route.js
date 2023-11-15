@@ -4,6 +4,12 @@ const passport = require("passport");
 // Route to start OAuth flow
 router.get(
   "/google",
+  (req, res, next) => {
+    const {linkingUri} = req.query;
+    req.linkingUri = linkingUri;
+    console.log(`Middleware, req.linkingUri: ${req.linkingUri}`)
+    next();
+  },
   passport.authenticate("google", {
     scope: ["profile", "email"],
   })
@@ -16,7 +22,7 @@ router.get("/google/redirect", passport.authenticate("google"), (req, res) => {
   console.log(req.user);
   const userData = JSON.stringify(req.user);
   // const deepLinkUrl = `com.google-oauth-testing://profile?user=${encodeURIComponent(userData)}`;
-  const deepLinkUrl = `google-oauth-testing://profile?user=${userData}`;
+  const deepLinkUrl = `${req.linkingUri}user=${userData}`;
 
   res.redirect(deepLinkUrl);
 });
